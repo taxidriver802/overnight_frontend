@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-import { HapticTab } from "@/app-example/components/haptic-tab";
+import { HapticTab } from "@/components/haptic-tab";
 import { useTheme } from "@/hooks/use-theme";
 
 export default function TabLayout() {

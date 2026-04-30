@@ -3,7 +3,7 @@ import { ThemedView } from "@/components/themed-view";
 import { Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 
-export default function SettingsScreen() {
+export default function RoundsScreen() {
   const { colors } = useTheme();
   
 

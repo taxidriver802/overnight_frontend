@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 
+import { useRouter } from "expo-router";
+
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Button } from "@/components/ui/button";
@@ -15,8 +17,11 @@ import {
   type AppearancePreference,
 } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
+import { useAuthStore } from "@/state/auth-store";
 
 export default function SettingsScreen() {
+  const router = useRouter();
+  const signOut = useAuthStore((s) => s.signOut);
   const {
     schemeId,
     setSchemeId,
@@ -43,6 +48,24 @@ export default function SettingsScreen() {
         <ThemedText style={{ color: colors.textMuted, marginBottom: Spacing.sm }}>
           Workplace-friendly palettes. Choice is saved on this device.
         </ThemedText>
+
+        <Card>
+          <ThemedText type="subtitle" style={{ marginBottom: Spacing.md }}>
+            Session
+          </ThemedText>
+          <ThemedText style={{ color: colors.textMuted, marginBottom: Spacing.md }}>
+            Sign out clears tokens stored on this device.
+          </ThemedText>
+          <Button
+            variant="outline"
+            onPress={async () => {
+              await signOut();
+              router.replace("/(auth)/login");
+            }}
+          >
+            Sign out
+          </Button>
+        </Card>
 
         <Card>
           <ThemedText type="subtitle" style={{ marginBottom: Spacing.md }}>
