@@ -74,8 +74,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
-          tabBarIcon: ({ color, size }) => <Ionicons name="cog-outline" size={size} color={color} />,
+          href: null,
           headerShown: false,
         }}
       />

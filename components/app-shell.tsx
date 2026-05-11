@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Elevation, Radii, Spacing } from "@/constants/theme";
@@ -8,6 +8,7 @@ import { useTheme } from "@/hooks/use-theme";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { Link, usePathname } from "expo-router";
 
 type AppShellProps = {
   children: ReactNode;
@@ -15,6 +16,8 @@ type AppShellProps = {
 
 export function AppShell({ children }: AppShellProps) {
   const { colors } = useTheme();
+  const pathname = usePathname();
+  const settingsActive = pathname === "/settings" || pathname.startsWith("/settings/");
 
   return (
     <ThemedView style={{ flex: 1 }}>
@@ -32,6 +35,12 @@ export function AppShell({ children }: AppShellProps) {
           ]}
         >
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <Link href="/" asChild>
+            <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Go to Overview"
+                hitSlop={10}
+              >
             <View style={{ flexDirection: "row", alignItems: "center", gap: Spacing.sm }}>
               <View
                 style={{
@@ -49,38 +58,30 @@ export function AppShell({ children }: AppShellProps) {
                 ShiftGuard
               </ThemedText>
             </View>
+            </Pressable>
+            </Link>
 
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: Spacing.xs,
-                paddingHorizontal: Spacing.sm,
-                paddingVertical: 6,
-                borderRadius: Radii.full,
-                backgroundColor: colors.successBackground,
-                borderWidth: 1,
-                borderColor: colors.success,
-              }}
-            >
-              <View
-                style={{
-                  width: 6,
-                  height: 6,
+
+            <Link href="/settings" asChild>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Open settings"
+                hitSlop={10}
+                style={({ pressed }) => ({
+                  padding: 6,
                   borderRadius: 999,
-                  backgroundColor: colors.success,
-                }}
-              />
-              <ThemedText
-                style={{
-                  color: colors.success,
-                  fontSize: 11,
-                  fontWeight: "600",
-                }}
+                  backgroundColor: pressed || settingsActive ? colors.controlMuted : "transparent",
+                  opacity: pressed ? 0.85 : 1,
+                })}
               >
-                On Duty
-              </ThemedText>
-            </View>
+                <Ionicons
+                  name="settings-outline"
+                  size={20}
+                  color={settingsActive ? colors.tabIconSelected : colors.tabIconDefault}
+                />
+              </Pressable>
+            </Link>
+
           </View>
         </View>
       </SafeAreaView>

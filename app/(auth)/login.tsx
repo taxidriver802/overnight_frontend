@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
@@ -35,7 +35,9 @@ export default function LoginScreen() {
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === "ios" ? 8 : 0}
       >
-        <View
+        <Pressable
+          onPress={Keyboard.dismiss}
+          accessible={false}
           style={{
             flex: 1,
             padding: Spacing.xl,
@@ -64,14 +66,14 @@ export default function LoginScreen() {
             maxLength={6}
           />
           {error ? (
-            <ThemedText style={{ color: colors.error }} accessibilityLiveRegion="polite">
+            <ThemedText style={{ color: colors.error, maxHeight: "20%" }} accessibilityLiveRegion="polite">
               {error}
             </ThemedText>
           ) : null}
           <Button variant="primary" onPress={onSubmit}>
             Sign in
           </Button>
-        </View>
+        </Pressable>
       </KeyboardAvoidingView>
     </ThemedView>
   );
